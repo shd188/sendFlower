@@ -1,0 +1,35 @@
+<view class="container">
+    <view class="header">
+        <text class="title">幸运咖贡献宝</text>
+    </view>
+    
+    <view class="content">
+        <!-- 授权提示 -->
+        <view wx:if="{{showAuthorizationPrompt}}">
+            <text class="text">欢迎，请授权以获取用户信息。</text>
+            <button class="button" bindtap="authorizeUser">送花花</button>
+        </view>
+    
+        <!-- 显示花花数据 -->
+        <view wx:if="{{showAuthorizedView}}">
+            <view wx:if="{{noFlowerData}}"> 
+                <text class="text">授人玫瑰，手留余香</text>
+                <button class="button" bindtap="sendFlower">送花花</button>
+            </view>
+            <view wx:else>
+                <text class="text">获得情况：</text>
+                <view wx:for="{{users}}" wx:key="id">
+                    <text class="text">{{item.name}}: 获得{{item.acceptFlowerCount}}朵 🌸</text>
+                </view>
+                <button class="button" bindtap="sendFlower">送花花</button>
+            </view>
+        </view>
+    </view>
+
+    <view class="footer">
+        <text class="footer-text">感谢您的使用</text>
+    </view>
+</view>
+
+
+

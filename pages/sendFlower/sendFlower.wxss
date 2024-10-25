@@ -1,0 +1,120 @@
+/* 全局样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 使其占满整个屏幕高度 */
+  background-color: #f9f9e0; /* 背景颜色 */
+  padding: 20px; /* 内边距 */
+  position: relative;
+}
+
+/* 表单样式 */
+.form {
+  width: 80%; /* 使表单宽度100% */
+  max-width: 400px; /* 最大宽度 */
+  background-color: #ffffff; /* 背景颜色 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  border-radius: 8px; /* 边角圆滑 */
+  padding: 30px;
+  display: flex;
+  flex-direction: column; /* 垂直排列 */
+  align-items: stretch; /* 拉伸到容器的宽度 */
+}
+
+/* 选择器样式 */
+.picker {
+  padding: 12px;
+  margin-bottom: 10%; /* 控件间距 */
+  border: 1px solid #ccc; /* 边框 */
+  border-radius: 5px; /* 圆角 */
+  background-color: #fafafa; /* 背景颜色 */
+  text-align: center; /* 文本居中 */
+  color: #333; /* 文本颜色 */
+}
+
+/* 输入框样式 */
+.input {
+  padding: 15px;
+  margin-bottom: 10%; /* 控件间距 */
+  border: 1px solid #ccc; /* 边框 */
+  border-radius: 5px; /* 圆角 */
+  width: 88%; /* 设置宽度为100% */
+  min-height: 80px; /* 设置最小高度 */
+  resize: none; /* 禁用手动调整大小 */
+  background-color: #fafafa; /* 背景颜色 */
+
+}
+
+/* 按钮样式 */
+.button {
+  background-color: #ff9eaa; /* 统一按钮颜色 */
+  color: #ffffff; /* 文本颜色 */
+  font-size: 16px; /* 字体大小 */
+  padding: 12px;
+  border: none; /* 去掉边框 */
+  border-radius: 5px; /* 圆角 */
+  cursor: pointer; /* 鼠标样式 */
+  margin-bottom: 10%;
+}
+
+/* 禁用按钮样式 */
+.button[disabled] {
+  background-color: #ccc; /* 禁用状态颜色 */
+  cursor: not-allowed; /* 鼠标样式 */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%; /* 可以根据需要调整宽度 */
+  max-width: 300px; /* 最大宽度 */
+  text-align: center;
+}
+
+.modal-title {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333; /* 文本颜色 */
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-button,
+.share-button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px; /* 增加按钮内边距 */
+  border: none; /* 去掉边框 */
+  border-radius: 6px; /* 圆角 */
+  background-color: #ff9eaa; /* 统一按钮颜色 */
+  cursor: pointer; /* 鼠标样式 */
+}
+
+.cancel-button {
+  background-color: #cccccc; /* 取消按钮颜色 */
+  color: #333; /* 按钮文本颜色 */
+}
+
+.share-button {
+  background-color: #ff9eaa; /* 分享按钮颜色 */
+  color: white; /* 按钮文本颜色 */
+}

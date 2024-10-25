@@ -1,0 +1,19 @@
+<view class="container">
+    <view class="header">
+        <text class="title">有人送你小红花啦</text>
+    </view>
+
+    <view class="content">
+        <block wx:if="{{isRecipient}}">
+            <text class="recipient-name">{{recipientName}}</text>
+            <text class="message">我觉得你很棒，送你{{giftQuantity}}朵 🌸</text>
+            <text class="gift-words">{{giftWords}}</text>
+            <text class="sender-name">{{senderName}}</text>
+        </block>
+        <block wx:else>
+            <text class="message">你的伙伴送出自己的小红花啦</text>
+        </block>
+    </view>
+
+    <button class="button" bindtap="goToIndex">我也去送</button>
+</view>

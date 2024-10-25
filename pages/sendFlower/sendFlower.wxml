@@ -1,0 +1,31 @@
+<view class="container">
+    <view class="form">
+        <picker mode="selector" range="{{userNames}}" bindchange="onUserChange">
+          <view class="picker">
+            {{selectedUser !== '' ? userNames[selectedUser] : '请选择收花人'}}
+         </view>
+        </picker>
+        
+        <picker mode="selector" range="{{quantityOptions}}" bindchange="onQuantityChange">
+          <view class="picker">
+            {{selectedQuantity!==-1? quantityOptions[selectedQuantity] : '请选择数量'}}
+        </view>
+        </picker>
+
+        
+        <textarea class="input" placeholder="输入你的赞美吧" bindinput="onInputChange" maxlength="200" auto-height="true" />
+        
+
+
+        <button class="button" bindtap="sendFlower" disabled="{{!canSend}}">赠送花朵</button>
+    </view>
+    <view wx:if="{{showShareDialog}}" class="overlay">
+        <view class="modal">
+            <text class="modal-title">快去告诉你的朋友吧！</text>
+            <view class="modal-buttons">
+                <button class="cancel-button" bindtap="hideShareDialog">取消</button>
+                <button class="share-button" open-type="share">分享</button>
+            </view>
+        </view>
+    </view>
+</view>

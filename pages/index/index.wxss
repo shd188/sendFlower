@@ -1,0 +1,60 @@
+/* 全局样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 顶部和底部分开 */
+  align-items: center;
+  height: 100vh; /* 使其占满整个屏幕高度 */
+  background-color: #f9f9e0; /* 背景颜色 */
+  padding: 20px; /* 内边距 */
+}
+
+/* 头部样式 */
+.header {
+  width: 100%; /* 头部宽度100% */
+  text-align: center; /* 文本居中 */
+  margin-bottom: 20px; /* 下边距 */
+  margin-top: 20%;
+}
+.text {
+  font-size: 18px;
+  color: #3aa6b9;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px; /* 字体大小 */
+  color: #3aa6b9; /* 文字颜色 */
+  font-weight: 800;
+}
+
+/* 内容部分样式 */
+.content {
+  flex: 1; /* 占据剩余空间 */
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+
+/* 按钮样式 */
+.button {
+  background-color: #ff9eaa; /* 统一按钮颜色 */
+  color: #ffffff; /* 文本颜色 */
+  font-size: 16px; /* 字体大小 */
+  padding: 12px 20px; /* 内边距 */
+  border: none; /* 去掉边框 */
+  border-radius: 5px; /* 圆角 */
+  cursor: pointer; /* 鼠标样式 */
+}
+
+/* 底部样式 */
+.footer {
+  width: 100%; /* 底部宽度100% */
+  text-align: center; /* 文本居中 */
+  margin-top: 20px; /* 上边距 */
+}
+
+.footer-text {
+  color: #666; /* 文字颜色 */
+  font-size: 14px; /* 字体大小 */
+}
