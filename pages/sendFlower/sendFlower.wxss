@@ -96,17 +96,24 @@
 .modal-buttons {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px; /* 可选：为按钮上方添加间距 */
 }
 
 .cancel-button,
 .share-button {
   flex: 1;
-  margin: 0 5px;
   padding: 10px; /* 增加按钮内边距 */
   border: none; /* 去掉边框 */
   border-radius: 6px; /* 圆角 */
   background-color: #ff9eaa; /* 统一按钮颜色 */
   cursor: pointer; /* 鼠标样式 */
+}
+.cancel-button {
+  margin-right: 20px; /* 右侧间距，可以根据需要调整 */
+}
+
+.share-button {
+  margin-left: 20px; /* 左侧间距，可以根据需要调整 */
 }
 
 .cancel-button {
@@ -115,6 +122,6 @@
 }
 
 .share-button {
-  background-color: #ff9eaa; /* 分享按钮颜色 */
+ background-color: #ff9eaa; /* 分享按钮颜色 */
   color: white; /* 按钮文本颜色 */
 }

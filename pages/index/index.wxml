@@ -25,11 +25,14 @@
             </view>
         </view>
     </view>
-
+     <!-- 显示昵称输入框，覆盖在页面之上 -->
+     <view wx:if="{{showNicknameInput}}" class="overlay">
+        <view class="input-container">
+            <input type="nickname" placeholder="请输入昵称" bind:change="handleNicknameInput" />
+            <button class="button" bindtap="saveUserData">确认</button>
+        </view>
+    </view>
     <view class="footer">
         <text class="footer-text">感谢您的使用</text>
     </view>
 </view>
-
-
-

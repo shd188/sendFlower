@@ -18,14 +18,14 @@
 }
 .text {
   font-size: 18px;
-  color: #3aa6b9;
+  color: #ff9eaa;
   margin-bottom: 20px;
 }
 
 .title {
   font-size: 24px; /* 字体大小 */
-  color: #3aa6b9; /* 文字颜色 */
-  font-weight: 800;
+  color: #ff9eaa; /* 文字颜色 */
+  font-weight: 500;
 }
 
 /* 内容部分样式 */
@@ -34,6 +34,7 @@
   display: flex;
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
+  position: relative; /* 使子元素绝对定位相对于容器 */
 }
 
 /* 按钮样式 */
@@ -57,4 +58,27 @@
 .footer-text {
   color: #666; /* 文字颜色 */
   font-size: 14px; /* 字体大小 */
+}
+.overlay {
+  position: fixed; /* 固定定位 */
+  top: 0; /* 覆盖整个页面顶部 */
+  left: 0; /* 覆盖整个页面左侧 */
+  width: 100%; /* 宽度100% */
+  height: 100%; /* 高度100% */
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  display: flex; /* 使用flex盒子居中 */
+  justify-content: center;
+  align-items: center; /* 垂直居中 */
+  z-index: 1000; /* 确保在最上层 */
+}
+
+.input-container {
+  background-color: white; /* 输入框容器背景 */
+  padding: 20px; /* 内边距 */
+  border-radius: 10px; /* 圆角 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 投影效果 */
+}
+
+.button {
+  margin-top: 10px; /* 按钮上方间隔 */
 }

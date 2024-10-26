@@ -9,6 +9,7 @@ const db = cloud.database();
 exports.main = async (event, context) => {
     try {
         const users = await db.collection('users').get();
+        console.log("getFlowerData=="+users);
         return {
             success: true,
             data: users.data // 返回用户数据

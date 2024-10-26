@@ -55,7 +55,7 @@ Page({
     },
 
     onUserChange(event) {
-        console.log("onUser------" + event.detail.value);
+        // console.log("onUser------" + event.detail.value);
         this.setData({
             selectedUser: event.detail.value
         });
@@ -77,7 +77,7 @@ Page({
     },
 
     updateButtonState() {
-        console.log("----" + this.data.selectedUser + "--" + this.data.selectedQuantity + "--" + this.data.giftwords);
+        // console.log("----" + this.data.selectedUser + "--" + this.data.selectedQuantity + "--" + this.data.giftwords);
         
         const { selectedUser, quantityOptions,selectedQuantity, giftwords } = this.data;
         this.setData({
@@ -171,8 +171,10 @@ Page({
         return {
             title: `我赠送给 ${recipientName} ${giftQuantity} 朵小红花！`,
             path: `/pages/shareFlower/shareFlower?recipientId=${recipientId}&recipientName=${encodeURIComponent(recipientName)}&senderId=${senderId}&senderName=${encodeURIComponent(senderName)}&giftQuantity=${giftQuantity}&giftWords=${encodeURIComponent(giftWords)}&myId=${myId}`,
-            imageUrl: '/images/share-image.png', // 自定义分享的图片
+            imageUrl: '/asset/flower.png', // 自定义分享的图片
         };
+        hideShareDialog();
+     
     },
     hideShareDialog() {
         this.setData({

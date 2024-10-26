@@ -18,7 +18,6 @@ Page({
             myId,
         } = options;
 
-console.log(options);
         // 判断当前用户是否是接收人
         this.setData({
             isRecipient: recipientId === myId,

@@ -2,11 +2,13 @@
 Page({
     data: {
         isFirstVisit: false, // 默认不是第一次访问
-        userInfo:[],
+        userInfo: [],
         users: [],
         showAuthorizedView: false,
         showAuthorizationPrompt: false, // 控制是否显示授权提示
         noFlowerData: false, // 控制是否显示空数据文案
+        nickname: '', // 存储用户输入的昵称
+        showNicknameInput: false, // 控制是否显示昵称输入框
     },
 
     onLoad: async function () {
@@ -26,115 +28,132 @@ Page({
 
     async authorizeUser() {
         try {
-            const userProfile = await wx.getUserProfile({
-                desc: '获取用户信息', // 授权描述
-            });
-
-            const { nickName, avatarUrl,acceptFlowerCount,flowerCount } = userProfile.userInfo;
-
-            // 获取当前用户的 openId
-            const res = await wx.cloud.callFunction({
-                name: 'login'
-            });
-
+            const res = await wx.cloud.callFunction({ name: 'login' }); // 获取当前用户的 openId
             const openId = res.result.openid;
-            // 获取数据库实例
-            const db = wx.cloud.database();
-
-            // 检查用户是否已经存在
-            const userRecord = await db.collection('users').doc(openId).get().catch(() => null);
-
-            // 用户数据
-            const userData = {
-                 _id: openId,
-                name: nickName,
-                avatar: avatarUrl,
-                acceptFlowerCount:0,
-                flowerCount:5,
-                createdAt: new Date() // 添加创建时间戳
-            };
-            
+// console.log("userOpenId:"+openId);
+            const userRecord = await wx.cloud.database().collection('users').where({_id:openId}).get().catch(() => null);
+// console.log("userRecord--"+userRecord);
             if (!userRecord) {
-                // 如果用户不存在，则新增
-                await db.collection('users').add({
-                    data: userData
+                // 如果用户不存在，则显示输入框让用户输入昵称
+                this.setData({
+                    showNicknameInput: true,
                 });
+            } else {
+                // 用户已存在，直接设置数据
+                this.setData({
+                    showAuthorizedView: true,
+                    showAuthorizationPrompt: false,
+                    userInfo: userRecord.data,
+                });
+                await this.getFlowerData(); // 刷新数据
             }
-
-            // 标记为已访问
-            wx.setStorageSync('isFirstVisit', true); // 如果授权成功，设置为 true
-            wx.setStorageSync('userInfo', userData);
-            this.setData({ 
-                showAuthorizedView: true,
-                showAuthorizationPrompt: false // 隐藏授权提示
-            });
-
-            wx.showToast({
-                title: '用户信息已保存',
-                icon: 'success'
-            });
-
-            // 刷新数据
-            await this.getFlowerData();
         } catch (error) {
             wx.showToast({
-                title: '授权失败，请重试',
+                title: '获取用户信息失败，请重试',
                 icon: 'none'
             });
         }
     },
 
-    async getFlowerData() {
-    try {
-        const res = await wx.cloud.callFunction({
-            name: 'getFlowerData'
+    // 新增方法：处理昵称输入
+    handleNicknameInput(event) {
+      console.log("昵称："+event.detail.value);
+        this.setData({
+            nickname: event.detail.value,
+        });
+    },
+
+    async saveUserData() {
+        if (!this.data.nickname) {
+            wx.showToast({
+                title: '昵称不能为空',
+                icon: 'none'
+            });
+            return;
+        }
+
+        const { openId, nickname } = this.data;
+        const userData = {
+            _id: openId,
+            name: nickname,
+            avatar: '', // 可以选择填入默认头像或留空
+            acceptFlowerCount: 0,
+            flowerCount: 5,
+            createdAt: new Date() // 添加创建时间戳
+        };
+
+        // 存储用户信息到数据库
+        await wx.cloud.database().collection('users').add({
+            data: userData
         });
 
-        // 检查 res 是否存在
-        if (res && res.result) {
-            if (res.result.success) {
-                const users = res.result.data;
+        wx.setStorageSync('isFirstVisit', true); // 设置为已访问
+        wx.setStorageSync('userInfo', userData);
 
-                if (users.length === 0) {
-                    this.setData({
-                        noFlowerData: true,
-                        showAuthorizedView: true
-                    });
+        this.setData({
+            showAuthorizedView: true,
+            showAuthorizationPrompt: false,
+            showNicknameInput: false,
+            userInfo: userData,
+        });
+
+        wx.showToast({
+            title: '用户信息已保存',
+            icon: 'success'
+        });
+
+        await this.getFlowerData(); // 刷新数据
+    },
+
+    async getFlowerData() {
+        try {
+            const res = await wx.cloud.callFunction({
+                name: 'getFlowerData'
+            });
+            console.log("index---"+res);
+            // 检查 res 是否存在
+            if (res && res.result) {
+                if (res.result.success) {
+                    const users = res.result.data;
+
+                    if (users.length === 0) {
+                        this.setData({
+                            noFlowerData: true,
+                            showAuthorizedView: true
+                        });
+                    } else {
+                        this.setData({
+                            users: users,
+                            showAuthorizedView: true,
+                            noFlowerData: false
+                        });
+                    }
                 } else {
-                    this.setData({
-                        users: users,
-                        showAuthorizedView: true,
-                        noFlowerData: false
+                    wx.showToast({
+                        title: '获取数据失败',
+                        icon: 'none'
                     });
                 }
             } else {
                 wx.showToast({
-                    title: '获取数据失败',
+                    title: '请求返回无效',
                     icon: 'none'
                 });
             }
-        } else {
+        } catch (error) {
+            console.error("云函数调用失败:", error);
             wx.showToast({
-                title: '请求返回无效',
+                title: '请求失败',
                 icon: 'none'
             });
         }
-    } catch (error) {
-        console.error("云函数调用失败:", error);
-        wx.showToast({
-            title: '请求失败',
-            icon: 'none'
-        });
-    }
-},
- 
+    },
 
     sendFlower() {
-        // 假设获取了用户数据
-          const users = this.data.users; // 假设 users 是你要传递的数据
+        const users = this.data.users; // 假设 users 是你要传递的数据
 
-          wx.navigateTo({
-              url: `/pages/sendFlower/sendFlower?users=${JSON.stringify(users)}`
-          });
+        wx.navigateTo({
+            url: `/pages/sendFlower/sendFlower?users=${JSON.stringify(users)}`
+        });
     }
 });
