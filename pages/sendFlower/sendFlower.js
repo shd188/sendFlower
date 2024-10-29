@@ -23,7 +23,7 @@ Page({
         wx.showShareMenu({
             withShareTicket: true // 可以选择是否需要分享的票据
         });
-        
+
         if (options.users) {
             try {
                 const users = JSON.parse(options.users);
@@ -34,11 +34,12 @@ Page({
 
                 // 获取当前用户的 openid
                 const userInfo = wx.getStorageSync('userInfo'); // 假设 
-                const currentUserOpenId = userInfo.id;
+                const currentUserOpenId = userInfo.openId;
 
+                console.log("currentUserOpenId----" + currentUserOpenId);
                 // openid 存储在本地
-                const currentUser = users.find(user => user.openid === currentUserOpenId);
-                
+                const currentUser = users.find(user => user.openId === currentUserOpenId);
+                console.log("currentUser----" + currentUser.name);
                 if (currentUser) {
                     this.setData({
                         flowerCount: currentUser.flowerCount,
@@ -51,11 +52,10 @@ Page({
         }
 
         this.updateButtonState();
-       
     },
 
     onUserChange(event) {
-        // console.log("onUser------" + event.detail.value);
+        console.log("onUser------" + event.detail.value);
         this.setData({
             selectedUser: event.detail.value
         });
@@ -77,9 +77,9 @@ Page({
     },
 
     updateButtonState() {
-        // console.log("----" + this.data.selectedUser + "--" + this.data.selectedQuantity + "--" + this.data.giftwords);
-        
-        const { selectedUser, quantityOptions,selectedQuantity, giftwords } = this.data;
+        console.log("----" + this.data.selectedUser + "--" + this.data.selectedQuantity + "--" + this.data.giftwords);
+
+        const { selectedUser, quantityOptions, selectedQuantity, giftwords } = this.data;
         this.setData({
             canSend: selectedUser !== '' && quantityOptions[selectedQuantity] !== '' && giftwords.trim() !== ''
         });
@@ -88,11 +88,11 @@ Page({
     async sendFlower() {
         const { users, selectedUser, selectedQuantity, giftwords, quantityOptions } = this.data;
         const quantity = quantityOptions[selectedQuantity];
-        const sendUserOpenId = wx.getStorageSync('userInfo').id; // 当前用户的 openid
-        const sendUser = users.find(user => user.openid === sendUserOpenId); // 送花人
+        const sendUserOpenId = wx.getStorageSync('userInfo').openId; // 当前用户的 openid
+        const sendUser = users.find(user => user.openId === sendUserOpenId); // 送花人
         const recipientUser = users[selectedUser]; // 收花人
 
-        if (!sendUser || !sendUser._id) {
+        if (!sendUser || !sendUser.openId) {
             wx.showToast({
                 title: "送花人信息无效",
                 icon: "none"
@@ -100,7 +100,7 @@ Page({
             return;
         }
 
-        if (!recipientUser || !recipientUser._id) {
+        if (!recipientUser || !recipientUser.openId) {
             wx.showToast({
                 title: "接收人信息无效",
                 icon: "none"
@@ -115,48 +115,39 @@ Page({
             });
             return;
         }
-
-        const db = wx.cloud.database();
+// console.log("sendUserOpenId:"+ sendUserOpenId);
+// console.log("recipientUserOpenId:"+ recipientUser.openId);
+// console.log("quantity:"+ Number(quantity));
+// console.log("giftwords:"+ giftwords);
         try {
-            // 1. 添加到 flowers 表
-            await db.collection('flowers').add({
+            // 1. 调用云函数添加记录并更新用户信息
+            const cloudFunctionRes = await wx.cloud.callFunction({
+                name: 'sendFlowers',
                 data: {
-                    send_id: sendUser._id,
-                    recipient_id: recipientUser._id,
-                    quantity: Number(quantity),
-                    giftwords: giftwords,
-                    timestamp: new Date() // 添加时间戳
-                }
-            });
-            
-            // 2.更新用户表
-            await db.collection('users').doc(sendUser._id).update({
-                data: {
-                    flowerCount: Number(sendUser.flowerCount) - Number(quantity)
+                    sendUserOpenId: sendUserOpenId,              // 发送用户的 ID
+                    recipientUserOpenId: recipientUser.openId,   // 接收用户的 ID
+                    quantity: Number(quantity),                     // 赠送的花花数量
+                    giftwords: giftwords                           // 赠送的留言
                 }
             });
 
-            await db.collection('users').doc(recipientUser._id).update({
-                data: {
-                    acceptFlowerCount: Number(recipientUser.acceptFlowerCount) + Number(quantity)
-                }
-            });
+            if (!cloudFunctionRes.result.success) {
+                throw new Error("更新用户花花数量失败");
+            }
 
-            // 3. 数据库操作成功后，设置分享内容
+            // 2. 数据库操作成功后，设置分享内容
             this.setData({
-                recipientId: recipientUser._openid,      // 接收人的 ID
-                recipientName: recipientUser.name,   // 接收人的名字
-                senderId: sendUser._openid,              // 发送人的 ID
-                senderName: sendUser.name,            // 发送人的名字
-                giftQuantity: quantity,               // 赠送的小红花数量
-                giftWords: giftwords                 // 赠送的语句
+                recipientId: recipientUser.openId,      // 接收人的 ID
+                recipientName: recipientUser.name,       // 接收人的名字
+                senderId: sendUserOpenId,                // 发送人的 ID
+                senderName: sendUser.name,               // 发送人的名字
+                giftQuantity: quantity,                   // 赠送的小红花数量
+                giftWords: giftwords                     // 赠送的语句
             });
-             // 4. 显示分享对话框
+
+            // 3. 显示分享对话框
             this.setData({ showShareDialog: true });
 
-            
-    
-           
         } catch (error) {
             console.error("数据库操作失败:", error);
             wx.showToast({
@@ -165,6 +156,7 @@ Page({
             });
         }
     },
+
     onShareAppMessage() {
         const { recipientId, recipientName, senderId, senderName, giftQuantity, giftWords, myId } = this.data;
         return {
@@ -173,14 +165,14 @@ Page({
             imageUrl: '/asset/flower.png', // 自定义分享的图片
         };
         hideShareDialog();
-     
     },
+
     hideShareDialog() {
         this.setData({
             showShareDialog: false,
         });
-        resetPageState();
-        updateButtonState();
+        this.resetPageState();
+        this.updateButtonState();
     },
 
     resetPageState() {
@@ -189,22 +181,11 @@ Page({
             selectedQuantity: 1,
             giftWords: '',
         });
-        
+
         // 刷新页面，重新调用 onLoad
         wx.reLaunch({
             url: '/pages/sendFlower/sendFlower', // 跳转到 sendFlower 页
         });
     },
 
-    
-
-    // async addToFlowers(data) {
-    //     // 这里模拟添加到 flowers 表的请求
-    //     console.log("添加到 flowers 表:", data);
-    // },
-
-    // async updateUsers(sendUserId, recipientUserId, quantity) {
-    //     // 这里模拟更新 users 表的请求
-    //     console.log("更新用户表:", sendUserId, recipientUserId, quantity);
-    // },
 });

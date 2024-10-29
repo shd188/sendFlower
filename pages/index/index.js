@@ -9,6 +9,7 @@ Page({
         noFlowerData: false, // 控制是否显示空数据文案
         nickname: '', // 存储用户输入的昵称
         showNicknameInput: false, // 控制是否显示昵称输入框
+        openId:'',
     },
 
     onLoad: async function () {
@@ -32,7 +33,7 @@ Page({
             const res = await wx.cloud.callFunction({ name: 'login' }); // 获取当前用户的 openId
             const openId = res.result.openid;
 console.log("userOpenId:"+openId);
-            const userRecord = await wx.cloud.database().collection('users').where({_openid:openId}).get().catch(() => null);
+            const userRecord = await wx.cloud.database().collection('users').where({openId:openId}).get().catch(() => null);
 console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
             if (userRecord.data && userRecord.data.length > 0) {
                 // 用户已存在，直接设置数据
@@ -47,6 +48,7 @@ console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
             } else {
                 // 如果用户不存在，则显示输入框让用户输入昵称
                 this.setData({
+                    openId:openId,
                     showNicknameInput: true,
                 }); 
             }
@@ -60,7 +62,7 @@ console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
 
     // 新增方法：处理昵称输入
     handleNicknameInput(event) {
-      console.log("昵称："+event.detail.value);
+      // console.log("昵称："+event.detail.value);
         this.setData({
             nickname: event.detail.value,
         });
@@ -76,8 +78,9 @@ console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
         }
 
         const { openId, nickname } = this.data;
+          console.log("存储----"+openId);
         const userData = {
-            _id: openId,
+            openId:openId,
             name: nickname,
             avatar: '', // 可以选择填入默认头像或留空
             acceptFlowerCount: 0,

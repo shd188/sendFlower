@@ -1,30 +1,53 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+const cloud = require('wx-server-sdk');
 
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV }) // 使用当前云环境
-
+cloud.init();
 const db = cloud.database();
 
 exports.main = async (event, context) => {
-    const { toUserId, quantity, message } = event;
+    const { sendUserOpenId, recipientUserOpenId, quantity, giftwords } = event;
+console.log("sendUserOpenId:"+ sendUserOpenId);
+console.log("recipientUserOpenId:"+ recipientUserOpenId);
+console.log("quantity:"+ Number(quantity));
+console.log("giftwords:"+ giftwords);
+    try {
+        // 1. 添加到 flowers 表
+        const flowerAddRes = await db.collection('flowers').add({
+            data: {
+                send_id: sendUserOpenId,
+                recipient_id: recipientUserOpenId,
+                quantity: Number(quantity),
+                giftwords: giftwords,
+                timestamp: new Date() // 添加时间戳
+            }
+        });
 
-    // 添加赠送记录
-    await db.collection('flowers').add({
-        data: {
-            toUserId,
-            quantity,
-            message,
-            timestamp: new Date()
-        }
-    });
+        // 2. 更新发送用户的 flowerCount
+        
+        const sendUserUpdateRes = await db.collection('users').where({
+            _openid: sendUserOpenId // 根据 _opid 字段进行匹配
+        }).update({
+            data: {
+                flowerCount: db.command.inc(-quantity) // 递减赠送的数量
+            }
+        });
 
-    // 更新接受者的花花数量
-    await db.collection('users').doc(toUserId).update({
-        data: {
-            flowerCount: db.command.inc(quantity) // 增加花花数量
-        }
-    });
+        // 3. 更新接收用户的 acceptFlowerCount
+        const recipientUserUpdateRes = await db.collection('users').where({_openid:recipientUserOpenId}).update({
+            data: {
+                acceptFlowerCount: db.command.inc(quantity)
+            }
+        });
 
-    // 可以选择发送通知给被选中的人
-    // 这里可以使用云开发的消息推送功能
+        return {
+            success: true,
+            flowerAddRes,
+            sendUserUpdateRes,
+            recipientUserUpdateRes
+        };
+    } catch (error) {
+        return {
+            success: false,
+            error
+        };
+    }
 };
