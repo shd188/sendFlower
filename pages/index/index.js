@@ -13,6 +13,7 @@ Page({
 
     onLoad: async function () {
         const isFirstVisit = wx.getStorageSync('isFirstVisit') || false; // 获取存储的值，默认是 false
+        console.log("isFirst--"+isFirstVisit);
 
         // 判断用户是否第一次访问
         if (!isFirstVisit) {
@@ -30,22 +31,24 @@ Page({
         try {
             const res = await wx.cloud.callFunction({ name: 'login' }); // 获取当前用户的 openId
             const openId = res.result.openid;
-// console.log("userOpenId:"+openId);
-            const userRecord = await wx.cloud.database().collection('users').where({_id:openId}).get().catch(() => null);
-// console.log("userRecord--"+userRecord);
-            if (!userRecord) {
-                // 如果用户不存在，则显示输入框让用户输入昵称
-                this.setData({
-                    showNicknameInput: true,
-                });
-            } else {
+console.log("userOpenId:"+openId);
+            const userRecord = await wx.cloud.database().collection('users').where({_openid:openId}).get().catch(() => null);
+console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
+            if (userRecord.data && userRecord.data.length > 0) {
                 // 用户已存在，直接设置数据
                 this.setData({
                     showAuthorizedView: true,
                     showAuthorizationPrompt: false,
                     userInfo: userRecord.data,
                 });
+                wx.setStorageSync('isFirstVisit', true); // 设置为已访问
+                wx.setStorageSync('userInfo', userRecord.data[0]);
                 await this.getFlowerData(); // 刷新数据
+            } else {
+                // 如果用户不存在，则显示输入框让用户输入昵称
+                this.setData({
+                    showNicknameInput: true,
+                }); 
             }
         } catch (error) {
             wx.showToast({

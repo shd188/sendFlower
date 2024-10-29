@@ -5,6 +5,7 @@ Page({
         senderName: '',
         giftQuantity: 0,
         giftWords: '',
+        myId:''
     },
 
     onLoad(options) {
@@ -14,13 +15,22 @@ Page({
             senderId,
             senderName,
             giftQuantity,
-            giftWords,
-            myId,
+            giftWords
         } = options;
 
+        const userInfo = wx.getStorageSync('userInfo');
+         console.log("myId--"+userInfo._openid);
+          // 打印获取到的参数
+        console.log("Recipient ID:", recipientId);
+        console.log("Recipient Name:", recipientName);
+        console.log("Sender ID:", senderId);
+        console.log("Sender Name:", senderName);
+        console.log("Gift Quantity:", giftQuantity);
+        console.log("Gift Words:", giftWords);
         // 判断当前用户是否是接收人
         this.setData({
-            isRecipient: recipientId === myId,
+            myId : userInfo._openid,
+            isRecipient: recipientId === userInfo._openid,
             recipientName: decodeURIComponent(recipientName),
             senderName: decodeURIComponent(senderName),
             giftQuantity: parseInt(giftQuantity, 10),

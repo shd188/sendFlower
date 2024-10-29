@@ -6,9 +6,9 @@
     <view class="content">
         <block wx:if="{{isRecipient}}">
             <text class="recipient-name">{{recipientName}}</text>
-            <text class="message">我觉得你很棒，送你{{giftQuantity}}朵 🌸</text>
+            <text class="message">我觉得你很棒，送你 {{giftQuantity}} 朵 🌸</text>
             <text class="gift-words">{{giftWords}}</text>
-            <text class="sender-name">{{senderName}}</text>
+            <text class="sender-name">你的伙伴：{{senderName}}</text>
         </block>
         <block wx:else>
             <text class="message">你的伙伴送出自己的小红花啦</text>

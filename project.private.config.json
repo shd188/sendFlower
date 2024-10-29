@@ -10,8 +10,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/index/index",
-          "pathName": "pages/index/index",
+          "name": "shareFlower",
+          "pathName": "pages/shareFlower/shareFlower",
           "query": "",
           "launchMode": "default",
           "scene": null

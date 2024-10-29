@@ -144,13 +144,12 @@ Page({
 
             // 3. 数据库操作成功后，设置分享内容
             this.setData({
-                recipientId: recipientUser._id,      // 接收人的 ID
+                recipientId: recipientUser._openid,      // 接收人的 ID
                 recipientName: recipientUser.name,   // 接收人的名字
-                senderId: sendUser._id,              // 发送人的 ID
+                senderId: sendUser._openid,              // 发送人的 ID
                 senderName: sendUser.name,            // 发送人的名字
                 giftQuantity: quantity,               // 赠送的小红花数量
-                giftWords: giftwords,                 // 赠送的语句
-                myId: sendUser._id,                   // 当前用户的 ID，可能是用户的 OpenID
+                giftWords: giftwords                 // 赠送的语句
             });
              // 4. 显示分享对话框
             this.setData({ showShareDialog: true });
@@ -170,7 +169,7 @@ Page({
         const { recipientId, recipientName, senderId, senderName, giftQuantity, giftWords, myId } = this.data;
         return {
             title: `我赠送给 ${recipientName} ${giftQuantity} 朵小红花！`,
-            path: `/pages/shareFlower/shareFlower?recipientId=${recipientId}&recipientName=${encodeURIComponent(recipientName)}&senderId=${senderId}&senderName=${encodeURIComponent(senderName)}&giftQuantity=${giftQuantity}&giftWords=${encodeURIComponent(giftWords)}&myId=${myId}`,
+            path: `/pages/shareFlower/shareFlower?recipientId=${recipientId}&recipientName=${encodeURIComponent(recipientName)}&senderId=${senderId}&senderName=${encodeURIComponent(senderName)}&giftQuantity=${giftQuantity}&giftWords=${encodeURIComponent(giftWords)}`,
             imageUrl: '/asset/flower.png', // 自定义分享的图片
         };
         hideShareDialog();
