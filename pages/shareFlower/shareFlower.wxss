@@ -5,21 +5,25 @@
   justify-content: space-between; /* 顶部和底部分开 */
   align-items: center;
   height: 100vh; /* 使其占满整个屏幕高度 */
-  background-color: #f9f9e0; /* 背景颜色 */
+  background-color: #ffffff; /* 背景颜色 */
   padding: 20px; /* 内边距 */
 }
 
 /* 头部样式 */
 .header {
   width: 100%; /* 头部宽度100% */
+  display:flex;
+  flex-direction: column;
   text-align: center; /* 文本居中 */
   margin-bottom: 20px; /* 下边距 */
+  margin-top: 20%;
 }
 
 .title {
-  font-size: 24px; /* 字体大小 */
-  color: #ff9eaa; /* 文字颜色 */
-  margin-top: 20%;
+  font-size: 32px; /* 字体大小 */
+  color: #000000; /* 文字颜色 */
+  font-weight: 500;
+  margin-top: 105;
 }
 
 /* 内容部分样式 */
@@ -59,7 +63,7 @@
 
 /* 按钮样式 */
 .button {
-  background-color: #ff9eaa; /* 统一按钮颜色 */
+  background-color: #fc5f62; /* 统一按钮颜色 */
   color: #ffffff; /* 文本颜色 */
   font-size: 16px; /* 字体大小 */
   padding: 12px 20px; /* 内边距 */
@@ -69,3 +73,4 @@
   margin-top: 20px; /* 顶部边距 */
   margin-bottom: 30%;
 }
+
