@@ -59,7 +59,7 @@
   background-color: #fc5f62; /* 统一按钮颜色 */
   color: #ffffff; /* 文本颜色 */
   font-size: 16px; /* 字体大小 */
-  padding: 12px; /* 内边距 */
+  padding: 10 5px; /* 内边距 */
   border: none; /* 去掉边框 */
   cursor: pointer; /* 鼠标样式 */
 

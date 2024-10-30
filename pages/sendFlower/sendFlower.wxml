@@ -19,14 +19,17 @@
 
     <button class="button" bindtap="sendFlower" disabled="{{!canSend}}">赠送花花</button>
   </view>
-  <view wx:if="{{showShareDialog}}" class="overlay">
+  <!-- 使用自定义 modal 组件 -->
+  <share-dialog title="快去告诉你的朋友吧！" visible="{{showShareDialog}}" bind:cancel="hideShareDialog">
+  </share-dialog>
+  <!-- <view wx:if="{{showShareDialog}}" class="overlay">
     <view class="modal">
       <text class="modal-title">快去告诉你的朋友吧！</text>
       <view class="modal-buttons">
-        <view class="cancel-button" bindtap="hideShareDialog">取消</view>
-        <view class="share-button" open-type="share">分享</view>
+        <button class="cancel-button" bindtap="hideShareDialog">取消</button>
+        <button class="share-button" open-type="share">分享</button>
       </view>
     </view>
-  </view>
+  </view> -->
 
 </view>

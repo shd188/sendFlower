@@ -5,10 +5,17 @@
     "compileHotReLoad": true,
     "skylineRenderEnable": true
   },
-  "libVersion": "3.6.1",
+  "libVersion": "3.6.3",
   "condition": {
     "miniprogram": {
       "list": [
+        {
+          "name": "sendFlower",
+          "pathName": "pages/sendFlower/sendFlower",
+          "query": "users=%5B%7B%22_id%22%3A%229bf3df136721767f11824e620d52d42c%22%2C%22flowerCount%22%3A10%2C%22name%22%3A%22%E6%B2%88%E5%90%8C%E5%AD%A6%22%2C%22openId%22%3A%22oCnTq0Jg5-E_m3KO9BNv0SzMMjds%22%2C%22_openid%22%3A%22oCnTq0Jg5-E_m3KO9BNv0SzMMjds%22%2C%22acceptFlowerCount%22%3A8%2C%22avatar%22%3A%22%22%2C%22createdAt%22%3A%222024-10-29T23%3A57%3A51.018Z%22%7D%2C%7B%22_id%22%3A%2233c5161d6721b3961194e14f568065f4%22%2C%22_openid%22%3A%22oCnTq0A71U9Jbsih3VjNEfaOTQlI%22%2C%22acceptFlowerCount%22%3A10%2C%22avatar%22%3A%22%22%2C%22createdAt%22%3A%222024-10-30T04%3A18%3A29.936Z%22%2C%22flowerCount%22%3A4%2C%22name%22%3A%22%E5%85%B5%E5%85%B5%22%2C%22openId%22%3A%22oCnTq0A71U9Jbsih3VjNEfaOTQlI%22%7D%2C%7B%22_id%22%3A%2225e993b76721b7fd11977c112bc12fa6%22%2C%22avatar%22%3A%22%22%2C%22createdAt%22%3A%222024-10-30T04%3A35%3A55.537Z%22%2C%22flowerCount%22%3A5%2C%22name%22%3A%22wxid_0jjf62147u8b12%22%2C%22openId%22%3A%22oCnTq0BKRR6I9v4BRy9tKSNyRvAk%22%2C%22_openid%22%3A%22oCnTq0BKRR6I9v4BRy9tKSNyRvAk%22%2C%22acceptFlowerCount%22%3A3%7D%5D",
+          "launchMode": "default",
+          "scene": null
+        },
         {
           "name": "index",
           "pathName": "pages/index/index",

@@ -115,10 +115,7 @@ Page({
             });
             return;
         }
-// console.log("sendUserOpenId:"+ sendUserOpenId);
-// console.log("recipientUserOpenId:"+ recipientUser.openId);
-// console.log("quantity:"+ Number(quantity));
-// console.log("giftwords:"+ giftwords);
+
         try {
             // 1. 调用云函数添加记录并更新用户信息
             const cloudFunctionRes = await wx.cloud.callFunction({
@@ -135,19 +132,20 @@ Page({
                 throw new Error("更新用户花花数量失败");
             }
 
-            // 2. 数据库操作成功后，设置分享内容
+            // 2. 数据库操作成功后，更新 currentUser.flowerCount,设置分享内容
+
+            sendUser.flowerCount -= quantity; // 从发送用户的花花数量中减去
             this.setData({
+                flowerCount: sendUser.flowerCount,
+                quantityOptions: Array.from({ length: sendUser.flowerCount }, (_, i) => i + 1) ,// 更新数量选项
                 recipientId: recipientUser.openId,      // 接收人的 ID
                 recipientName: recipientUser.name,       // 接收人的名字
                 senderId: sendUserOpenId,                // 发送人的 ID
                 senderName: sendUser.name,               // 发送人的名字
                 giftQuantity: quantity,                   // 赠送的小红花数量
-                giftWords: giftwords                     // 赠送的语句
+                giftWords: giftwords,                     // 赠送的语句
+                showShareDialog:true,
             });
-
-            // 3. 显示分享对话框
-            this.setData({ showShareDialog: true });
-
         } catch (error) {
             console.error("数据库操作失败:", error);
             wx.showToast({
@@ -158,7 +156,9 @@ Page({
     },
 
     onShareAppMessage() {
+    
         const { recipientId, recipientName, senderId, senderName, giftQuantity, giftWords, myId } = this.data;
+        
         return {
             title: `我赠送给 ${recipientName} ${giftQuantity} 朵小红花！`,
             path: `/pages/shareFlower/shareFlower?recipientId=${recipientId}&recipientName=${encodeURIComponent(recipientName)}&senderId=${senderId}&senderName=${encodeURIComponent(senderName)}&giftQuantity=${giftQuantity}&giftWords=${encodeURIComponent(giftWords)}`,
@@ -178,14 +178,37 @@ Page({
     resetPageState() {
         this.setData({
             selectedUser: '',
-            selectedQuantity: 1,
+            selectedQuantity: -1,
             giftWords: '',
         });
 
         // 刷新页面，重新调用 onLoad
-        wx.reLaunch({
-            url: '/pages/sendFlower/sendFlower', // 跳转到 sendFlower 页
-        });
+        // wx.reLaunch({
+        //     url: '/pages/sendFlower/sendFlower', // 跳转到 sendFlower 页
+        // });
     },
+    showShareModel(){
+      wx.showModal({
+                title: '快去告诉你的朋友吧！',
+                content: '',
+                showCancel: true,
+                cancelText: '取消',
+                confirmText: '分享',
+                success: (res) => {
+                    if (res.confirm) {
+                        // 用户点击了分享按钮
+                        wx.showToast({
+                            title: '分享成功',
+                            icon: 'success',
+                            duration: 2000
+                        });
+                        this.onShareAppMessage();
+                    } else if (res.cancel) {
+                        // 用户点击了取消按钮
+                        this.hideShareDialog();
+                    }
+                }
+            });
+    }
 
 });

@@ -52,7 +52,7 @@
   background-color: #fc5f62; /* 统一按钮颜色 */
   color: #ffffff; /* 文本颜色 */
   font-size: 16px; /* 字体大小 */
-  padding: 12px;
+  padding: 10 5px;
   border: none; /* 去掉边框 */
   border-radius: 5px; /* 圆角 */
   cursor: pointer; /* 鼠标样式 */
@@ -65,68 +65,3 @@
   cursor: not-allowed; /* 鼠标样式 */
 }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 80%; /* 可以根据需要调整宽度 */
-  max-width: 300px; /* 最大宽度 */
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
-}
-
-.modal-title {
-  margin-bottom: 20px;
-  font-size: 18px;
-  color: #333; /* 文本颜色 */
-  font-weight: 500; /* 加粗标题 */
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px; /* 可选：为按钮上方添加间距 */
-}
-
-.cancel-button,
-.share-button {
-  flex: 1;
-  padding: 12px; /* 增加按钮内边距 */
-  border: none; /* 去掉边框 */
-  border-radius: 6px; /* 圆角 */
-  cursor: pointer; /* 鼠标样式 */
-  transition: background-color 0.3s ease; /* 添加过渡效果 */
-}
-
-.cancel-button {
-  margin-right: 10px; /* 右侧间距，可以根据需要调整 */
-  background-color: #e0e0e0; /* 取消按钮颜色 */
-  color: #333; /* 按钮文本颜色 */
-}
-
-.cancel-button:hover {
-  background-color: #d0d0d0; /* 鼠标悬停时的颜色 */
-}
-
-.share-button {
-  margin-left: 10px; /* 左侧间距，可以根据需要调整 */
-  background-color: #fc5f62; /* 分享按钮颜色 */
-  color: white; /* 按钮文本颜色 */
-}
-
-.share-button:hover {
-  background-color: #e64a4d; /* 鼠标悬停时的颜色 */
-}

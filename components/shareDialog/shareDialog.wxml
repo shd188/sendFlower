@@ -1,0 +1,9 @@
+<view wx:if="{{visible}}" class="modal-overlay">
+  <view class="modal">
+    <text class="modal-title">{{title}}</text>
+    <view class="modal-buttons">
+      <button class="cancel-button" bindtap="onCancel">取消</button>
+      <button class="share-button" open-type="share">分享</button>
+    </view>
+  </view>
+</view>

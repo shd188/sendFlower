@@ -8,7 +8,7 @@
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom"
   },
-  "style": "v2",
+  
   "renderer": "skyline",
   "rendererOptions": {
     "skyline": {
