@@ -24,7 +24,7 @@
       <text class="modal-title">快去告诉你的朋友吧！</text>
       <view class="modal-buttons">
         <view class="cancel-button" bindtap="hideShareDialog">取消</view>
-        <view class="share-button" bindtap="share">分享</view>
+        <view class="share-button" open-type="share">分享</view>
       </view>
     </view>
   </view>
