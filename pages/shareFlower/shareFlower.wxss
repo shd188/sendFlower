@@ -51,6 +51,10 @@
   font-size: 18px; /* 字体大小 */
   color: #555; /* 文字颜色 */
   margin: 10px 0; /* 上下边距 */
+
+}
+.gift-words{
+  width: 100%;
 }
 
 /* 发送者名字样式 */

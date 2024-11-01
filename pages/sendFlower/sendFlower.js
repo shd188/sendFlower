@@ -115,7 +115,11 @@ Page({
             });
             return;
         }
-
+        // 显示 loading 提示
+        wx.showLoading({
+            title: '正在发送...',
+            mask: true // 遮罩层，防止用户操作
+        });
         try {
             // 1. 调用云函数添加记录并更新用户信息
             const cloudFunctionRes = await wx.cloud.callFunction({
@@ -152,6 +156,9 @@ Page({
                 title: "赠送失败，请重试",
                 icon: "none"
             });
+        } finally {
+            // 无论成功或失败，都要隐藏 loading 提示
+            wx.hideLoading();
         }
     },
 
