@@ -5,10 +5,9 @@ Page({
         flowerCount: 0,           // 当前用户的花花数量
         quantityOptions: [],      // 递减的数量列表
         selectedUser: '',         // 选择的用户索引
-        selectedQuantity: -1,      // 默认选择的数量索引
+        selectedQuantity: -1,     // 默认选择的数量索引
         giftwords: '',            // 输入的留言
         canSend: false,           // 按钮是否可用
-        // 下个页面传的参数
         recipientId: '',          // 接收人的 ID
         recipientName: '',        // 接收人的名字
         senderId: '',             // 发送人的 ID
@@ -26,18 +25,17 @@ Page({
 
         if (options.users) {
             try {
-                const users = JSON.parse(options.users);
+                const users = JSON.parse(decodeURIComponent(options.users)); // 解析参数
+
                 this.setData({
                     users: users,
                     userNames: users.map(user => user.name), // 提取用户名称
                 });
 
-                // 获取当前用户的 openid
                 const userInfo = wx.getStorageSync('userInfo'); // 假设 
                 const currentUserOpenId = userInfo.openId;
 
                 console.log("currentUserOpenId----" + currentUserOpenId);
-                // openid 存储在本地
                 const currentUser = users.find(user => user.openId === currentUserOpenId);
                 console.log("currentUser----" + currentUser.name);
                 if (currentUser) {
@@ -89,6 +87,7 @@ Page({
         const { users, selectedUser, selectedQuantity, giftwords, quantityOptions } = this.data;
         const quantity = quantityOptions[selectedQuantity];
         const sendUserOpenId = wx.getStorageSync('userInfo').openId; // 当前用户的 openid
+        const sendUserName = wx.getStorageSync('userInfo').name;
         const sendUser = users.find(user => user.openId === sendUserOpenId); // 送花人
         const recipientUser = users[selectedUser]; // 收花人
 
@@ -115,18 +114,20 @@ Page({
             });
             return;
         }
-        // 显示 loading 提示
+
         wx.showLoading({
             title: '正在发送...',
             mask: true // 遮罩层，防止用户操作
         });
+
         try {
-            // 1. 调用云函数添加记录并更新用户信息
             const cloudFunctionRes = await wx.cloud.callFunction({
                 name: 'sendFlowers',
                 data: {
                     sendUserOpenId: sendUserOpenId,              // 发送用户的 ID
+                    sendUserName: sendUserName,
                     recipientUserOpenId: recipientUser.openId,   // 接收用户的 ID
+                    recipientUserName: recipientUser.name,
                     quantity: Number(quantity),                     // 赠送的花花数量
                     giftwords: giftwords                           // 赠送的留言
                 }
@@ -136,19 +137,17 @@ Page({
                 throw new Error("更新用户花花数量失败");
             }
 
-            // 2. 数据库操作成功后，更新 currentUser.flowerCount,设置分享内容
-
             sendUser.flowerCount -= quantity; // 从发送用户的花花数量中减去
             this.setData({
                 flowerCount: sendUser.flowerCount,
-                quantityOptions: Array.from({ length: sendUser.flowerCount }, (_, i) => i + 1) ,// 更新数量选项
+                quantityOptions: Array.from({ length: sendUser.flowerCount }, (_, i) => i + 1), // 更新数量选项
                 recipientId: recipientUser.openId,      // 接收人的 ID
                 recipientName: recipientUser.name,       // 接收人的名字
                 senderId: sendUserOpenId,                // 发送人的 ID
                 senderName: sendUser.name,               // 发送人的名字
                 giftQuantity: quantity,                   // 赠送的小红花数量
                 giftWords: giftwords,                     // 赠送的语句
-                showShareDialog:true,
+                showShareDialog: true,
             });
         } catch (error) {
             console.error("数据库操作失败:", error);
@@ -157,21 +156,18 @@ Page({
                 icon: "none"
             });
         } finally {
-            // 无论成功或失败，都要隐藏 loading 提示
             wx.hideLoading();
         }
     },
 
     onShareAppMessage() {
-    
-        const { recipientId, recipientName, senderId, senderName, giftQuantity, giftWords, myId } = this.data;
-        
+        const { recipientId, recipientName, senderId, senderName, giftQuantity, giftWords } = this.data;
+
         return {
             title: `我赠送给 ${recipientName} ${giftQuantity} 朵小红花！`,
             path: `/pages/shareFlower/shareFlower?recipientId=${recipientId}&recipientName=${encodeURIComponent(recipientName)}&senderId=${senderId}&senderName=${encodeURIComponent(senderName)}&giftQuantity=${giftQuantity}&giftWords=${encodeURIComponent(giftWords)}`,
-            imageUrl: '/asset/flower.png', // 自定义分享的图片
+            imageUrl: '/assets/flower.png', // 自定义分享的图片
         };
-        hideShareDialog();
     },
 
     hideShareDialog() {
@@ -188,34 +184,27 @@ Page({
             selectedQuantity: -1,
             giftWords: '',
         });
-
-        // 刷新页面，重新调用 onLoad
-        // wx.reLaunch({
-        //     url: '/pages/sendFlower/sendFlower', // 跳转到 sendFlower 页
-        // });
     },
-    showShareModel(){
-      wx.showModal({
-                title: '快去告诉你的朋友吧！',
-                content: '',
-                showCancel: true,
-                cancelText: '取消',
-                confirmText: '分享',
-                success: (res) => {
-                    if (res.confirm) {
-                        // 用户点击了分享按钮
-                        wx.showToast({
-                            title: '分享成功',
-                            icon: 'success',
-                            duration: 2000
-                        });
-                        this.onShareAppMessage();
-                    } else if (res.cancel) {
-                        // 用户点击了取消按钮
-                        this.hideShareDialog();
-                    }
-                }
-            });
-    }
 
+    showShareModel() {
+        wx.showModal({
+            title: '快去告诉你的朋友吧！',
+            content: '',
+            showCancel: true,
+            cancelText: '取消',
+            confirmText: '分享',
+            success: (res) => {
+                if (res.confirm) {
+                    wx.showToast({
+                        title: '分享成功',
+                        icon: 'success',
+                        duration: 2000
+                    });
+                    this.onShareAppMessage();
+                } else if (res.cancel) {
+                    this.hideShareDialog();
+                }
+            }
+        });
+    }
 });

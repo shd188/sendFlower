@@ -84,6 +84,8 @@ console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
             name: nickname,
             avatar: '', // 可以选择填入默认头像或留空
             acceptFlowerCount: 0,
+            totalAcceptCount:0,
+            totalSendCount:0,
             flowerCount: 5,
             createdAt: new Date() // 添加创建时间戳
         };
@@ -116,7 +118,6 @@ console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
             const res = await wx.cloud.callFunction({
                 name: 'getFlowerData'
             });
-            console.log("index---"+res);
             // 检查 res 是否存在
             if (res && res.result) {
                 if (res.result.success) {
@@ -157,9 +158,11 @@ console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
 
     sendFlower() {
         const users = this.data.users; // 假设 users 是你要传递的数据
-
+        // 假设 users 是一个数组对象
         wx.navigateTo({
-            url: `/pages/sendFlower/sendFlower?users=${JSON.stringify(users)}`
+            url: `/pages/sendFlower/sendFlower?users=${encodeURIComponent(JSON.stringify(users))}`
         });
+
+        
     }
 });

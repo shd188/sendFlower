@@ -1,0 +1,90 @@
+.container {
+  padding: 20px; /* 内边距 */
+  background-color: #f5f5f5; /* 背景颜色 */
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 水平居中 */
+  margin-top: 60px;
+  margin-bottom: 20px; /* 底部间距 */
+  justify-content: center; /* 垂直居中（在flex容器内） */
+  padding: 20px; /* 可以添加内边距以增加美观 */
+}
+
+.avatar {
+  width: 80px; /* 头像宽度 */
+  height: 80px; /* 头像高度 */
+  border-radius: 40px; /* 圆形头像 */
+  margin-bottom: 10px; /* 底部间距 */
+}
+
+.user-name {
+  font-size: 20px; /* 用户名字体大小 */
+  font-weight: bold; /* 粗体 */
+}
+
+.welcome-text {
+  font-size: 14px; /* 欢迎语字体大小 */
+  color: #888; /* 欢迎语颜色 */
+}
+
+.container-box {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.stats-container {
+  display: flex; /* 使用弹性布局 */
+  justify-content: space-between; /* 两侧对齐 */
+  margin-bottom: 20px; /* 底部间距 */
+}
+
+.stat-box {
+  flex: 1; /* 等分布局 */
+  background-color: #ffcc00; /* 背景颜色 */
+  padding: 20px; /* 内边距 */
+  border-radius: 10px; /* 圆角 */
+  text-align: center; /* 文本居中 */
+  margin-right: 10px; /* 右间距 */
+}
+
+.stat-box:last-child {
+  margin-right: 0; /* 最后一个不留右间距 */
+}
+
+.stat-title {
+  font-size: 16px; /* 标题字体大小 */
+  margin-bottom: 10px; /* 底部间距 */
+}
+
+.stat-number {
+  font-size: 28px; /* 数字字体大小 */
+  font-weight: bold; /* 粗体 */
+}
+
+.feature-container {
+  display: flex; /* 使用弹性布局 */
+  justify-content: space-between; /* 两侧对齐 */
+}
+
+.feature-box {
+  flex: 1; /* 等分布局 */
+  background-color: #ccc; /* 灰色背景 */
+  padding: 30px; /* 内边距 */
+  border-radius: 10px; /* 圆角 */
+  text-align: center; /* 文本居中 */
+  margin-right: 10px; /* 右间距 */
+}
+
+.feature-box:last-child {
+  margin-right: 0; /* 最后一个不留右间距 */
+}
+
+.feature-title {
+  font-size: 16px; /* 标题字体大小 */
+  color: #666; /* 字体颜色 */
+}

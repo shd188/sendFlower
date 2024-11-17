@@ -4,9 +4,11 @@ cloud.init();
 const db = cloud.database();
 
 exports.main = async (event, context) => {
-    const { sendUserOpenId, recipientUserOpenId, quantity, giftwords } = event;
+    const { sendUserOpenId,sendUserName, recipientUserOpenId,recipientUserName, quantity, giftwords } = event;
 console.log("sendUserOpenId:"+ sendUserOpenId);
+console.log("sendUserName:"+ sendUserName);
 console.log("recipientUserOpenId:"+ recipientUserOpenId);
+console.log("recipientUserName:"+ recipientUserName);
 console.log("quantity:"+ Number(quantity));
 console.log("giftwords:"+ giftwords);
     try {
@@ -14,7 +16,9 @@ console.log("giftwords:"+ giftwords);
         const flowerAddRes = await db.collection('flowers').add({
             data: {
                 send_id: sendUserOpenId,
+                send_name:sendUserName,
                 recipient_id: recipientUserOpenId,
+                recipient_name:recipientUserName,
                 quantity: Number(quantity),
                 giftwords: giftwords,
                 timestamp: new Date() // 添加时间戳
@@ -27,14 +31,16 @@ console.log("giftwords:"+ giftwords);
             _openid: sendUserOpenId // 根据 _opid 字段进行匹配
         }).update({
             data: {
-                flowerCount: db.command.inc(-quantity) // 递减赠送的数量
+                flowerCount: db.command.inc(-quantity) ,// 递减赠送的数量
+                totalSendCount:db.command.inc(quantity)
             }
         });
 
         // 3. 更新接收用户的 acceptFlowerCount
         const recipientUserUpdateRes = await db.collection('users').where({_openid:recipientUserOpenId}).update({
             data: {
-                acceptFlowerCount: db.command.inc(quantity)
+                acceptFlowerCount: db.command.inc(quantity),
+                totalAcceptCount:db.command.inc(quantity)
             }
         });
 

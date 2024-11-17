@@ -1,0 +1,52 @@
+<view class="container">
+  <view class="tabs">
+    <view class="tab" data-tab="received" bindtap="switchTab" style="background-color: {{activeTab === 'received' ? '#fff' : '#f0f0f0'}}">
+      收到的花
+    </view>
+    <view class="tab" data-tab="sent" bindtap="switchTab" style="background-color: {{activeTab === 'sent' ? '#fff' : '#f0f0f0'}}">
+      送出的花
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中...</view> <!-- 添加 loading 显示 -->
+
+  <view class="list" wx:if="{{activeTab === 'received' && !loading}}">
+    <block wx:for="{{receivedFlowers}}" wx:key="_id">
+        <view class="flower-item">
+            <view class="time">{{item.formattedDate}}</view>
+            <view class="info-container">
+                <view class="left-tab">{{item.send_name}} 送了我 {{item.quantity}} 朵小红花</view>
+                <view class="right-tab" bindtap="navigateToShareFlower" 
+                      data-flower-id="{{item._id}}" 
+                      data-recipient_id="{{item.recipient_id}}" 
+                      data-recipient_name="{{item.recipient_name}}" 
+                      data-send_id="{{item.send_id}}" 
+                      data-send_name="{{item.send_name}}" 
+                      data-quantity="{{item.quantity}}" 
+                      data-giftwords="{{item.giftwords}}">
+                    查看详情 >
+                </view>
+            </view>
+        </view>
+    </block>
+  </view>
+
+  <view class="list" wx:if="{{activeTab === 'sent' && !loading}}">
+    <block wx:for="{{sentFlowers}}" wx:key="_id">
+        <view class="flower-item">
+            <view class="time">{{item.formattedDate}}</view>
+            <view class="info-container">
+                <view class="left-tab">我送了 {{item.recipient_name}} {{item.quantity}} 朵小红花</view>
+                <view class="right-tab" bindtap="navigateToShareFlower" 
+                      data-flower-id="{{item._id}}" 
+                      data-recipient_id="{{item.recipient_id}}" 
+                      data-recipient_name="{{item.recipient_name}}" 
+                      data-send_id="{{item.send_id}}" 
+                      data-send_name="{{item.send_name}}" 
+                      data-quantity="{{item.quantity}}" 
+                      data-giftwords="{{item.giftwords}}">查看详情 ></view>
+            </view>
+        </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: #f5f5f5; /* 页面背景色 */
+  height: 100vh; /* 使容器占满整个视口 */
+  align-content: flex-start;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffffff; /* Tabs 背景色 */
+  border-bottom: 1px solid #e0e0e0; /* Tabs 下方边框 */
+  width: 70%;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0; /* 调整上下内边距，减少距离 */
+  color: #333; /* 文字颜色 */
+  font-weight: bold;
+  transition: background-color 0.3s; /* 添加过渡效果 */
+}
+
+.tab.active {
+  background-color: #ffffff; /* 激活状态背景色 */
+  color: #007aff; /* 激活状态文字颜色（微信蓝） */
+  border-bottom: 2px solid #007aff; /* 激活状态底部边框 */
+}
+
+.tab:hover {
+  background-color: #f0f0f0; /* Hover 状态的背景色 */
+}
+
+.list {
+  padding: 10px; /* 列表的内边距 */
+  margin-top: 10px; /* 列表距离 Tabs 的上边距 */
+  background-color: #ffffff; /* 列表背景色 */
+  border-radius: 5px; /* 列表边角圆润 */
+  width: 90%;
+}
+
+.flower-item {
+  margin-bottom: 8px; /* 列表项间距 */
+  padding: 10px; /* 列表项内边距 */
+  background-color: #f9f9f9; /* 列表项背景色 */
+  border-radius: 5px; /* 列表项边角圆润 */
+}
+
+.time {
+  font-weight: bold; /* 加粗日期 */
+  color: #666; /* 日期颜色 */
+  margin-bottom: 5px; /* 日期与下面内容的间距 */
+}
+
+.info-container {
+  display: flex; /* 使用 Flexbox 布局 */
+  justify-content: space-between; /* 使内容两端对齐 */
+  align-items: center; /* 垂直居中对齐 */
+}
+
+.left-tab {
+  color: #333; /* 左侧信息文字颜色 */
+  flex-grow: 1; /* 让左侧内容占用剩余空间 */
+}
+
+.right-tab {
+  color: #007aff; /* 右侧链接颜色 */
+  cursor: pointer; /* 提示可点击 */
+  margin-left: 10px; /* 与左侧信息的间距 */
+}
+.loading {
+  text-align: center; /* 文本居中 */
+  margin: 20px 0; /* 上下间距 */
+  font-size: 16px; /* 字体大小 */
+  color: #888; /* 字体颜色 */
+}
+
+
+/* 媒体查询，以适应不同设备 */
+@media (max-width: 480px) {
+  .tabs {
+    flex-direction: row; /* 在小屏设备上调整 Tabs 为垂直 */
+  }
+
+  .tab {
+    margin-bottom: 5px; /* Tabs 之间的间距 */
+  }
+
+  .list {
+    padding: 10px; /* 小屏设备的内边距 */
+  }
+}

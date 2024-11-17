@@ -2,13 +2,40 @@
   "pages": [
     "pages/index/index",
     "pages/sendFlower/sendFlower",
-    "pages/shareFlower/shareFlower"
+    "pages/shareFlower/shareFlower",
+    "pages/record/record",
+    "pages/my/my"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom"
   },
-  
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#1c1c1c",
+    "backgroundColor": "#fff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text":"首页",
+        "iconPath": "assets/icons/home.png", 
+        "selectedIconPath": "assets/icons/home-active.png" 
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "记录",
+        "iconPath": "assets/icons/record.png",
+        "selectedIconPath": "assets/icons/record-active.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "assets/icons/my.png",
+        "selectedIconPath": "assets/icons/my-active.png"
+      }
+    ]
+  },
   "renderer": "skyline",
   "rendererOptions": {
     "skyline": {

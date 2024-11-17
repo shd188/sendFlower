@@ -5,7 +5,7 @@
   justify-content: space-between; /* 顶部和底部分开 */
   align-items: center;
   height: 100vh; /* 使其占满整个屏幕高度 */
-  background-color: #ffffff; /* 背景颜色 */
+  background-color: #f5f5f5; /* 页面背景色 */
   padding: 20px; /* 内边距 */
 }
 

@@ -1,6 +1,6 @@
 <view class="container">
     <view class="header">
-        <image class="image" mode="widthFix" src="/asset/friends.png"></image>
+        <image class="image" mode="widthFix" src="/assets/friends.png"></image>
         <text class="title">幸运咖贡献宝</text>
     </view>
     

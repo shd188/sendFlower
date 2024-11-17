@@ -5,8 +5,12 @@
   justify-content: space-between; /* 顶部和底部分开 */
   align-items: center;
   height: 100vh; /* 使其占满整个屏幕高度 */
-  background-color: #ffffff; /* 背景颜色 */
+  background-color: #fff6f7; /* 页面背景色 */
   padding: 20px; /* 内边距 */
+  background-image: url('/assets/bg.jpg'); /* 设置背景图像 */
+  background-size:initial; /* 使背景图像覆盖整个容器 */
+  background-position: top; /* 将背景图像居中显示 */
+  background-repeat: no-repeat; /* 不重复背景图像 */
 }
 
 /* 头部样式 */
@@ -28,13 +32,14 @@
 
 /* 内容部分样式 */
 .content {
-  width: 80%;
-  flex: 1; /* 占据剩余空间 */
+  width: 90%;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center; /* 垂直居中 */
   align-items: center; /* 水平居中 */
   text-align: center; /* 文本居中 */
+  margin-top: 15px;
 }
 
 /* 接收人名字样式 */
@@ -74,7 +79,7 @@
   border: none; /* 去掉边框 */
   border-radius: 5px; /* 圆角 */
   cursor: pointer; /* 鼠标样式 */
-  margin-top: 20px; /* 顶部边距 */
+  margin-top: 10px; /* 顶部边距 */
   margin-bottom: 30%;
 }
 

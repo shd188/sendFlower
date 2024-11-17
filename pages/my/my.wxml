@@ -1,0 +1,31 @@
+<view class="container">
+    <!-- 用户信息区域 -->
+    <view class="user-info">
+        <image class="avatar" src="{{userInfo.avatar}}" />  <!-- 使用更新后的 avatar 字段 -->
+        <text class="user-name">Hi {{userInfo.name}}</text>  <!-- 使用更新后的 name 字段 -->
+        <text class="welcome-text">幸运杯在手 好运跟我走</text>
+    </view>
+    <view class="container-box">
+    <!-- 统计数据区域 -->
+    <view class="stats-container">
+        <view class="stat-box" bindtap="goToSendFlowers">
+            <text class="stat-title">送出的花</text>
+            <text class="stat-number">{{userInfo.totalSendCount}}</text>  <!-- 更新字段 -->
+        </view>
+        <view class="stat-box" bindtap="goToReceivedFlowers">
+            <text class="stat-title">收到的花</text>
+            <text class="stat-number">{{userInfo.totalAcceptCount}}</text>  <!-- 更新字段 -->
+        </view>
+    </view>
+
+    <!-- 功能开发中 -->
+    <view class="feature-container">
+        <view class="feature-box">
+            <text class="feature-title">功能开发中...</text>
+        </view>
+        <view class="feature-box">
+            <text class="feature-title">功能开发中...</text>
+        </view>
+    </view>
+  </view>
+</view>
