@@ -10,8 +10,8 @@ Page({
         canSend: false,           // 按钮是否可用
         recipientId: '',          // 接收人的 ID
         recipientName: '',        // 接收人的名字
-        senderId: '',             // 发送人的 ID
-        senderName: '',           // 发送人的名字
+        sendId: '',             // 发送人的 ID
+        sendName: '',           // 发送人的名字
         giftQuantity: 0,          // 赠送的小红花数量
         giftWords: '',            // 赠送的语句
         myId: '',                 // 当前用户的 ID，可能是用户的 OpenID
@@ -87,7 +87,7 @@ Page({
         const { users, selectedUser, selectedQuantity, giftwords, quantityOptions } = this.data;
         const quantity = quantityOptions[selectedQuantity];
         const sendUserOpenId = wx.getStorageSync('userInfo').openId; // 当前用户的 openid
-        const sendUserName = wx.getStorageSync('userInfo').name;
+        const sendName= wx.getStorageSync('userInfo').name;
         const sendUser = users.find(user => user.openId === sendUserOpenId); // 送花人
         const recipientUser = users[selectedUser]; // 收花人
 
@@ -125,7 +125,7 @@ Page({
                 name: 'sendFlowers',
                 data: {
                     sendUserOpenId: sendUserOpenId,              // 发送用户的 ID
-                    sendUserName: sendUserName,
+                    sendName: sendName,
                     recipientUserOpenId: recipientUser.openId,   // 接收用户的 ID
                     recipientUserName: recipientUser.name,
                     quantity: Number(quantity),                     // 赠送的花花数量
@@ -143,8 +143,8 @@ Page({
                 quantityOptions: Array.from({ length: sendUser.flowerCount }, (_, i) => i + 1), // 更新数量选项
                 recipientId: recipientUser.openId,      // 接收人的 ID
                 recipientName: recipientUser.name,       // 接收人的名字
-                senderId: sendUserOpenId,                // 发送人的 ID
-                senderName: sendUser.name,               // 发送人的名字
+                sendId: sendUserOpenId,                // 发送人的 ID
+                sendName: sendUser.name,               // 发送人的名字
                 giftQuantity: quantity,                   // 赠送的小红花数量
                 giftWords: giftwords,                     // 赠送的语句
                 showShareDialog: true,
@@ -161,11 +161,11 @@ Page({
     },
 
     onShareAppMessage() {
-        const { recipientId, recipientName, senderId, senderName, giftQuantity, giftWords } = this.data;
+        const { recipientId, recipientName, sendId, sendName, giftQuantity, giftWords } = this.data;
 
         return {
             title: `我赠送给 ${recipientName} ${giftQuantity} 朵小红花！`,
-            path: `/pages/shareFlower/shareFlower?recipientId=${recipientId}&recipientName=${encodeURIComponent(recipientName)}&senderId=${senderId}&senderName=${encodeURIComponent(senderName)}&giftQuantity=${giftQuantity}&giftWords=${encodeURIComponent(giftWords)}`,
+            path: `/pages/shareFlower/shareFlower?recipientId=${recipientId}&recipientName=${encodeURIComponent(recipientName)}&sendId=${sendId}&sendName=${encodeURIComponent(sendName)}&giftQuantity=${giftQuantity}&giftWords=${encodeURIComponent(giftWords)}`,
             imageUrl: '/assets/flower.png', // 自定义分享的图片
         };
     },
