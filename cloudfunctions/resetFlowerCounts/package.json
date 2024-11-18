@@ -1,5 +1,5 @@
 {
-  "name": "fillFlower",
+  "name": "resetFlowerCounts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

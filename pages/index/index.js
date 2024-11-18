@@ -32,9 +32,7 @@ Page({
         try {
             const res = await wx.cloud.callFunction({ name: 'login' }); // 获取当前用户的 openId
             const openId = res.result.openid;
-console.log("userOpenId:"+openId);
             const userRecord = await wx.cloud.database().collection('users').where({openId:openId}).get().catch(() => null);
-console.log("userRecord--"+userRecord.data+"length--"+userRecord.data.length);
             if (userRecord.data && userRecord.data.length > 0) {
                 // 用户已存在，直接设置数据
                 this.setData({
